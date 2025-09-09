@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
                     const user = await UserModel.findOne({email: credentials.email});
 
                     if (!user) {
-                        throw new Error("No user found with this");
+                        throw new Error("No user found with given email");
                     }
 
                     const isPassValid = bcrypt.compare(credentials.password, user.password);

@@ -1,4 +1,11 @@
-import React from 'react'
+"use client";
+
+import { IVideo } from "@/models/Video"
+
+
+interface VideoFeedProps {
+
+}
 
 function VideoFeed() {
   return (

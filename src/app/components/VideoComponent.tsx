@@ -1,4 +1,8 @@
-import React from 'react'
+"use client";
+
+import { IVideo } from "@/models/Video"
+import Link from "next/link"
+
 
 function VideoComponent() {
   return (

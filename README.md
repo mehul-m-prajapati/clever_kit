@@ -6,8 +6,8 @@ npm run dev
 ```
 
 ### Config
+<img width="650" height="450" alt="diagram-export-9-10-2025-6_43_33-PM" src="https://github.com/user-attachments/assets/08048c15-5fbd-4f99-ad8f-da5e2781e1a3" />
 
-<img width="600" height="480" alt="diagram-export-9-10-2025-6_38_12-PM" src="https://github.com/user-attachments/assets/6bd1b150-b8c5-4973-b2d9-6716104590db" />
 
 ### Next Auth Flow diagram
 ```

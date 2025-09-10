@@ -5,6 +5,10 @@ npm i
 npm run dev
 ```
 
+### Next Auth Config
+
+<img width="837" height="589" alt="diagram-export-9-10-2025-6_38_12-PM" src="https://github.com/user-attachments/assets/6bd1b150-b8c5-4973-b2d9-6716104590db" />
+
 ### Next Auth Flow diagram
 ```
 +-------------------+       1. User clicks "Sign In"

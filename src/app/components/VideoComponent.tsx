@@ -17,11 +17,11 @@ function VideoComponent({video}: { video: IVideo }) {
                 >
                     <Video
                         className="w-full h-full object-cover"
-                        urlEndpoint={process.env.NEXT_IMAGEKIT_URL_ENDPOINT}
+                        urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT}
                         src={video.videoUrl}
                         controls={video.controls}
-                        width={1080}
-                        height={1920}
+                        width={video.transformation?.width}
+                        height={video.transformation?.height}
                      />
                 </div>
             </Link>

@@ -31,6 +31,8 @@ export const authOptions: NextAuthOptions = {
                     if (!isPassValid)
                         throw new Error("invalid password");
 
+                    //This object is the user object that will be passed to the JWT callback
+                    // in your authOptions.callbacks.jwt() — and then subsequently to the session callback.
                     return {
                         id: user._id.toString(),
                         email: user.email
@@ -47,9 +49,12 @@ export const authOptions: NextAuthOptions = {
         async jwt({token, user}) {
             if (user) {
                 token.id = user.id;
+                //token.email = user.email;
             }
             return token;
         },
+        //NextAuth automatically sets session.user.email (and name, if available) from the JWT token.
+        //It internally copies token.email and token.name into session.user.
         async session({session, token}) {
             if (session.user) {
                 session.user.id = token.id as string;

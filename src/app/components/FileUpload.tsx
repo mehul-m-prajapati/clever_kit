@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import {
     ImageKitAbortError,
@@ -8,6 +9,8 @@ import {
     ImageKitUploadNetworkError,
     upload,
 } from "@imagekit/next"
+import { apiClient } from "@/lib/api-client";
+import { IVideo } from "@/models/Video";
 
 
 interface FileUploadProps {
@@ -48,12 +51,12 @@ function FileUpload({ onSuccess, onProgress_, fileType }: FileUploadProps) {
 
     try {
         const resp = await fetch("/api/auth/imagekit-auth");
-        const {authenticationParameters: auth_params} = await resp.json();
+        const {authenticationParameters: auth_params, publicKey} = await resp.json();
 
         const result = await upload({
             file,
             fileName: file.name,
-            publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY!,
+            publicKey,
             signature: auth_params.signature,
             expire: auth_params.expire,
             token: auth_params.token,
@@ -62,6 +65,15 @@ function FileUpload({ onSuccess, onProgress_, fileType }: FileUploadProps) {
                 onProgress_?.(Math.round(percent));
             }
         });
+
+        const videoData: any = {
+            title: result.name,
+            description: (result as any).description ?? 'My video',
+            videoUrl: result.url,
+            thumbnailUrl: `${result.url}/preview.jpg?tr=so-0`
+        }
+
+        await apiClient.createVideo(videoData);
 
         onSuccess(result);
     }
@@ -74,15 +86,31 @@ function FileUpload({ onSuccess, onProgress_, fileType }: FileUploadProps) {
   }
 
   return (
-    <div>
-        <input
-            type="file"
-            accept={fileType === "video" ? "video/*" : "image/*"}
-            onChange={handleFileChange}
-        />
-        {uploading && <span>Loading....</span>}
+    <div className="space-y-4">
+        {/* File Input */}
+        <label className="block">
+            <span className="block text-sm font-medium text-gray-50 mb-1">Choose a {fileType} file</span>
+            <input
+                type="file"
+                accept={fileType === "video" ? "video/*" : "image/*"}
+                onChange={handleFileChange}
+                className="block w-full text-sm text-gray-900 file:mr-4 file:py-2 file:px-4
+                    file:rounded-md file:border-0 file:text-sm file:font-semibold
+                    file:bg-blue-600 file:text-white hover:file:bg-blue-700
+                    cursor-pointer transition"
+            />
+        </label>
 
-        {error && <p className="text-red-800 text-xl font-bold">{error}</p>}
+        {/* Loader */}
+        {uploading && (
+            <div className="flex items-center gap-2 text-blue-600">
+                <Loader2 className="animate-spin w-4 h-4" />
+                <span>Uploading...</span>
+            </div>
+        )}
+
+        {/* Error Message */}
+        {error && <p className="text-red-600 text-sm font-semibold">{error}</p>}
     </div>
   )
 }
